@@ -1,0 +1,139 @@
+scalar Date @specifiedBy(url: "https://tools.ietf.org/html/rfc3339")
+scalar Url @specifiedBy(url: "https://www.w3.org/Addressing/URL/url-spec.txt")
+
+type Query {
+  usuarios: [Usuario]
+
+  products: [Product]
+  product(id: ID!): Product
+
+  purchases: [Purchase]
+  purchase(id: ID): Purchase
+
+  detailPurchases: [DetailPurchase]
+  detailPurchase(id: ID): DetailPurchase
+
+  suppliers: [Supplier]
+  supplier(id: ID): Supplier
+}
+
+type Mutation {
+  login(loginInput: LoginInput): AuthResponse
+  register(registerInput: RegisterInput): AuthResponse
+
+  createProduct(productInput: ProductInput): Product
+  updateProduct(id: ID, productInput: ProductInput): Product
+  deleteProductById(id: ID): String
+
+  addPurchase(purchaseInput: PurchaseInput): Purchase
+  updatePurchase(id: ID, purchaseInput: PurchaseInput): Purchase
+  deletePurchaseById(id: ID): String
+
+  addDetailPurchase(detailPurchaseInput: DetailPurchaseInput): DetailPurchase
+  updateDetailPurchase(id: ID, detailPurchaseInput: DetailPurchaseInput): DetailPurchase
+  deleteDetailPurchaseById(id: ID): String
+
+  createSupplier(supplierInput: SupplierInput): Supplier
+  updateSupplier(id: ID, supplierInput: SupplierInput): Supplier
+  deleteSupplierById(id: ID): String
+
+}
+
+
+type Usuario {
+  id: ID
+  username: String
+  password: String
+  isEnabled: Boolean
+  accountNoExpired: Boolean
+  accountNoLocked: Boolean
+  credentialNoExpired: Boolean
+  role: Role
+}
+
+type Role {
+  id: ID
+  roleName: RoleEnum
+  permissions: [Permission]
+}
+
+enum RoleEnum {
+  ADMIN
+  USER
+  INVITED
+  DEVELOPER
+}
+
+type Permission {
+  id: ID
+  name: String
+}
+
+type AuthResponse {
+  id: ID
+  username: String
+  message: String
+  token: String
+  status: Boolean
+}
+
+type Product {
+  id: ID
+  name: String
+  price: Float
+  imageUrl: String
+  description: String
+}
+
+input ProductInput {
+  name: String
+  price: Float
+  imageUrl: String
+  description: String
+}
+
+type Purchase {
+  id: ID 
+  idCliente: String 
+  precioTotal: Float 
+}
+input PurchaseInput {
+  idCliente: String 
+  precioTotal: Float 
+}
+
+type DetailPurchase {
+    id: ID
+    idProducto: String
+    cantidad: Int
+    precioProducto: Float
+}
+
+input DetailPurchaseInput {
+    idProducto: String
+    cantidad: Int
+    precioProducto: Float
+}
+
+type Supplier {
+    id: String
+    name: String
+    nit: String
+    telefono: String
+}
+input SupplierInput {
+    name: String
+    nit: String
+    telefono: String
+}
+
+input LoginInput {
+  username: String
+  password: String
+}
+
+input RegisterInput {
+  username: String
+  password: String
+  roleRequest: String
+}

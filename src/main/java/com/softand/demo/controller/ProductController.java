@@ -1,52 +1,71 @@
 package com.softand.demo.controller;
 
-import com.softand.demo.common.exception.ProductNotFoundException;
-import com.softand.demo.persistence.entity.ProductEntity;
-import com.softand.demo.persistence.repository.ProductRepository;
-
-import jakarta.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.softand.demo.models.ProductInput;
+import com.softand.demo.models.Product;
+import com.softand.demo.service.ProductService;
+
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
-@RequestMapping("/api/products")
+@Slf4j
+@PreAuthorize("denyAll()")
 public class ProductController {
-
+   
     @Autowired
-    private ProductRepository productRepository;
+    private ProductService productService;
 
+    @QueryMapping
+    @PreAuthorize("hasAuthority('READ')")
+    public Product product(@Argument String id) {
+        log.info("Query product in GraphQL Server by id {}", id);
+        return productService.getProductById(id);
+    }
+    
+    @QueryMapping
+    @PreAuthorize("permitAll()")
+    public List<Product> products() {
+        return this.productService.getAllProducts();
+    }
+    
+    @MutationMapping
+    // @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("permitAll()")
+    public Product createProduct(@Argument ProductInput productInput) {
+        Product product = new Product();
+        product.setName(productInput.getName());
+        product.setPrice(productInput.getPrice());
+        product.setImageUrl(productInput.getImageUrl());
+        product.setDescription(productInput.getDescription());
 
-    @PostMapping
-    public ResponseEntity<ProductEntity> createProduct(@Valid @RequestBody ProductEntity productEntity) {
-        return new ResponseEntity<ProductEntity>(this.productRepository.save(productEntity), HttpStatus.CREATED);
+        return this.productService.createProduct(product);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ProductEntity> getProductById(@PathVariable String id) {
-        return new ResponseEntity<>(this.productRepository.findById(id)
-            .orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + id))
-        , HttpStatus.OK);
+    @MutationMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public EntityResponse updateProduct(@Argument String id, @Argument ProductInput productInput) {
+        
+        Product product = new Product();
+        product.setName(productInput.getName());
+        product.setPrice(productInput.getPrice());
+        product.setImageUrl(productInput.getImageUrl());
+        product.setDescription(productInput.getDescription());
+
+        return this.productService.updateProduct(id, product);
     }
 
-    @GetMapping
-    public ResponseEntity<List<ProductEntity>> getAllProducts() {
-        return new ResponseEntity<>(this.productRepository.findAll(), HttpStatus.OK);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<ProductEntity> updateProduct(@PathVariable String id, @Valid @RequestBody ProductEntity productDTO) {
-        productDTO.setId(id);
-        return new ResponseEntity<>(this.productRepository.save(productDTO), HttpStatus.OK);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable String id) {
-        productRepository.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @MutationMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public String deleteProductById(@Argument String id) {
+        this.productService.deleteById(id);
+        return "Product with id: "+id+" eliminado correctamente.";
     }
 }

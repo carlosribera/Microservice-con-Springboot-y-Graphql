@@ -1,19 +1,18 @@
 package com.softand.demo.service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.softand.demo.persistence.entity.PermissionEntity;
-import com.softand.demo.persistence.entity.RoleEntity;
-import com.softand.demo.persistence.entity.RoleEnum;
-import com.softand.demo.persistence.entity.UserEntity;
-import com.softand.demo.persistence.repository.PermissionRepository;
-import com.softand.demo.persistence.repository.RoleRepository;
-import com.softand.demo.persistence.repository.UserRepository;
+import com.softand.demo.models.PermissionEntity;
+import com.softand.demo.models.Role;
+import com.softand.demo.models.RoleEnum;
+import com.softand.demo.models.Usuario;
+import com.softand.demo.repositories.PermissionRepository;
+import com.softand.demo.repositories.RoleRepository;
+import com.softand.demo.repositories.UserRepository;
 
 @Service
 public class UserService {
@@ -28,12 +27,12 @@ public class UserService {
     private PermissionRepository permissionRepository;
 
     
-    public List<UserEntity> getAllUsers() {
+    public List<Usuario> getAllUsers() {
         return userRepository.findAll();
     }
 
     // public UserEntity createUser(String username, String password) {
-    public UserEntity createUser(UserEntity user) {
+    public Usuario createUser(Usuario user) {
         
         String username = user.getUsername();
         String password = user.getPassword();
@@ -51,34 +50,33 @@ public class UserService {
         user.setCredentialNoExpired(true);
 
         // Asignar el rol USER por defecto
-        RoleEntity userRole = roleRepository.findByRoleName(RoleEnum.USER);
+        Role userRole = roleRepository.findByRoleName(RoleEnum.USER);
 
-        user.setRoles(new HashSet<>());
-        user.getRoles().add(userRole);
+        user.setRole(userRole);
 
         return userRepository.save(user);
     }
 
     public void assignRolesToUser(String userId, String roleId) {
-        Optional<UserEntity> userOpt = userRepository.findById(userId);
-        Optional<RoleEntity> roleOpt = roleRepository.findById(roleId);
+        Optional<Usuario> userOpt = userRepository.findById(userId);
+        Optional<Role> roleOpt = roleRepository.findById(roleId);
 
         if (userOpt.isPresent() && roleOpt.isPresent()) {
-            UserEntity user = userOpt.get();
-            RoleEntity role = roleOpt.get();
+            Usuario user = userOpt.get();
+            Role role = roleOpt.get();
 
-            user.getRoles().add(role);
+            user.setRole(role);
 
             userRepository.save(user);
         }
     }
 
     public void assignPermissionsToRole(String roleId, String permissionId) {
-        Optional<RoleEntity> roleOpt = roleRepository.findById(roleId);
+        Optional<Role> roleOpt = roleRepository.findById(roleId);
         Optional<PermissionEntity> permissionOpt = permissionRepository.findById(permissionId);
 
         if (roleOpt.isPresent() && permissionOpt.isPresent()) {
-            RoleEntity role = roleOpt.get();
+            Role role = roleOpt.get();
             role.getPermissions().add(permissionOpt.get());
 
             roleRepository.save(role);

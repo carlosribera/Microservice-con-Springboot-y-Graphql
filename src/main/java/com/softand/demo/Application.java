@@ -6,24 +6,21 @@ import java.util.Set;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-import com.softand.demo.persistence.entity.PermissionEntity;
-import com.softand.demo.persistence.entity.RoleEntity;
-import com.softand.demo.persistence.entity.RoleEnum;
-import com.softand.demo.persistence.entity.UserEntity;
-import com.softand.demo.persistence.repository.PermissionRepository;
-import com.softand.demo.persistence.repository.RoleRepository;
-import com.softand.demo.persistence.repository.UserRepository;
+import com.softand.demo.models.PermissionEntity;
+import com.softand.demo.models.Role;
+import com.softand.demo.models.RoleEnum;
+import com.softand.demo.models.Usuario;
+import com.softand.demo.repositories.PermissionRepository;
+import com.softand.demo.repositories.RoleRepository;
+import com.softand.demo.repositories.UserRepository;
 
-@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
-@EnableMongoRepositories(basePackages = "com.softand.demo.persistence.repository")
-public class DemoApplication {
+@SpringBootApplication()
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 	@Bean
@@ -53,21 +50,21 @@ public class DemoApplication {
 			}
 
 			/* Create ROLES */
-			RoleEntity roleAdmin = RoleEntity.builder()
+			Role roleAdmin = Role.builder()
 					.roleName(RoleEnum.ADMIN)
 					.permissions(Set.of(createPermission, readPermission, updatePermission, deletePermission))
 					.build();
 
-			RoleEntity roleUser = RoleEntity.builder()
+			Role roleUser = Role.builder()
 					.roleName(RoleEnum.USER)
 					.permissions(Set.of(createPermission, readPermission))
 					.build();
 
-			RoleEntity roleInvited = RoleEntity.builder()
+			Role roleInvited = Role.builder()
 					.roleName(RoleEnum.INVITED)
 					.permissions(Set.of(readPermission))
 					.build();
-			RoleEntity roleDeveloper = RoleEntity.builder()
+			Role roleDeveloper = Role.builder()
 					.roleName(RoleEnum.DEVELOPER)
 					.permissions(Set.of(createPermission, readPermission, updatePermission, deletePermission,
 							refactorPermission))
@@ -78,41 +75,41 @@ public class DemoApplication {
 			}
 
 			// Create Users
-			UserEntity userAndres = UserEntity.builder()
+			Usuario userAndres = Usuario.builder()
 					.username("andres")
 					.password("$2a$10$KWdxekR.JGGFhArIDyopUugeN1erXS/ceggSJyzrPcHnqXxDz4yqG")
 					.isEnabled(true)
 					.accountNoExpired(true)
 					.accountNoLocked(true)
 					.credentialNoExpired(true)
-					.roles(Set.of(roleAdmin))
+					.role(roleAdmin)
 					.build();
-			UserEntity userDaniel = UserEntity.builder()
+			Usuario userDaniel = Usuario.builder()
 					.username("daniel")
 					.password("$2a$10$KWdxekR.JGGFhArIDyopUugeN1erXS/ceggSJyzrPcHnqXxDz4yqG")
 					.isEnabled(true)
 					.accountNoExpired(true)
 					.accountNoLocked(true)
 					.credentialNoExpired(true)
-					.roles(Set.of(roleUser))
+					.role(roleUser)
 					.build();
-			UserEntity userCarla = UserEntity.builder()
+			Usuario userCarla = Usuario.builder()
 					.username("carla")
 					.password("$2a$10$KWdxekR.JGGFhArIDyopUugeN1erXS/ceggSJyzrPcHnqXxDz4yqG")
 					.isEnabled(true)
 					.accountNoExpired(true)
 					.accountNoLocked(true)
 					.credentialNoExpired(true)
-					.roles(Set.of(roleInvited))
+					.role(roleInvited)
 					.build();
-			UserEntity userAngy = UserEntity.builder()
+			Usuario userAngy = Usuario.builder()
 					.username("anyi")
 					.password("$2a$10$KWdxekR.JGGFhArIDyopUugeN1erXS/ceggSJyzrPcHnqXxDz4yqG")
 					.isEnabled(true)
 					.accountNoExpired(true)
 					.accountNoLocked(true)
 					.credentialNoExpired(true)
-					.roles(Set.of(roleDeveloper))
+					.role(roleDeveloper)
 					.build();
 			if (userRepository.count() == 0) {
 				userRepository.saveAll(List.of(userAndres, userDaniel, userCarla, userAngy));

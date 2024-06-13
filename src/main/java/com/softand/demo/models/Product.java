@@ -1,4 +1,4 @@
-package com.softand.demo.persistence.entity;
+package com.softand.demo.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,8 +15,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "producto")
-public class ProductEntity {
+@Document(collection = "products")
+public class Product {
 
     @Id
     private String id;

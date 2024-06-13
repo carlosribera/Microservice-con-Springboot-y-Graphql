@@ -1,12 +1,9 @@
-package com.softand.demo.persistence.entity;
-
-import java.util.Set;
+package com.softand.demo.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import jakarta.persistence.*;
 import lombok.*;
 
 @Setter
@@ -14,9 +11,8 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 @Document(collection = "users")
-public class UserEntity {
+public class Usuario {
 
     @Id
     private String id;
@@ -32,5 +28,5 @@ public class UserEntity {
     @Field("credential_No_Expired")
     private boolean credentialNoExpired;
 
-    private Set<RoleEntity> roles;
+    private Role role;
 }

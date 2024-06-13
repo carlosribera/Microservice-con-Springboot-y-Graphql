@@ -1,10 +1,12 @@
-package com.softand.demo.persistence.entity;
+package com.softand.demo.models;
+
+import java.util.Set;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-import jakarta.persistence.*;
 import lombok.*;
 
 @Setter
@@ -12,13 +14,15 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Document(collection = "permissions")
-public class PermissionEntity {
-    
+@Document(collection = "roles")
+public class Role {
+
     @Id
     private String id;
-
+    @Field("role_name")
     @Indexed(unique = true)
-    private String name;
+    private RoleEnum roleName;
+    
+    @Field("permissions")
+    private Set<PermissionEntity> permissions;
 }

@@ -1,8 +1,8 @@
-package com.softand.demo.controller.dto;
+package com.softand.demo.models.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record AuthLoginRequest( @NotBlank String username, 
+public record LoginInput( @NotBlank String username, 
                                 @NotBlank String password) {
 
 }

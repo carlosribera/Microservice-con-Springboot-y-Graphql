@@ -7,12 +7,12 @@ import com.softand.demo.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -23,6 +23,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Autowired
@@ -31,28 +32,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-        .csrf(csrf -> csrf.disable())
-        .httpBasic(Customizer.withDefaults())
-        .sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeHttpRequests(http-> {
-            // Configuracion de los endpoints publicos
-            http.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
-            http.requestMatchers(HttpMethod.GET, "/api/products").permitAll();
-            http.requestMatchers(HttpMethod.GET, "/api/products/**").permitAll();
-            
-            // Configuracion de los endpoints privados
-            http.requestMatchers(HttpMethod.GET, "method/get").hasAnyAuthority("READ");
-            
-            http.requestMatchers(HttpMethod.POST, "/api/products").hasAnyRole("ADMIN","DEVELOPER");
-            http.requestMatchers(HttpMethod.PUT, "/api/products/**").hasAnyRole("ADMIN","DEVELOPER");
-            http.requestMatchers(HttpMethod.DELETE, "/api/products/**").hasAnyRole("ADMIN","DEVELOPER");
-
-            // Configurar el resto de endpoint - NO ESPECIFICADOS
-            http.anyRequest().denyAll(); 
-            // http.anyRequest().authenticated(); // PERMITE EL INGRESO A TODO EL QUE ESTE AUTENTICADO
-        })
-        .addFilterBefore(new JwtTokenValidator(jwtUtils), BasicAuthenticationFilter.class)
-        .build();
+                .csrf(csrf -> csrf.disable())
+                .httpBasic(Customizer.withDefaults())
+                .sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(new JwtTokenValidator(jwtUtils), BasicAuthenticationFilter.class)
+                .build();
     }
 
     @Bean

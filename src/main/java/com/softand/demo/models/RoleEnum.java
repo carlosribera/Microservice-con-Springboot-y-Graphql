@@ -1,4 +1,4 @@
-package com.softand.demo.persistence.entity;
+package com.softand.demo.models;
 
 public enum RoleEnum {
     ADMIN,
