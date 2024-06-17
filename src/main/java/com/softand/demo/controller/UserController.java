@@ -25,7 +25,7 @@ public class UserController {
     private UserRepository userRepository;
 
     @QueryMapping
-    public List<Usuario> usuarios(){
+    public List<Usuario> getAllUsers(){
         return this.userRepository.findAll();
     }
     

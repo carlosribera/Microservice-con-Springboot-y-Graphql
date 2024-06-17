@@ -25,14 +25,14 @@ public class DetailPurchaseController {
 
     @QueryMapping
     @PreAuthorize("hasAuthority('READ')")
-    public DetailPurchase detailPurchase(@Argument String id) {
+    public DetailPurchase getDetailPurchaseById(@Argument String id) {
         log.info("Query detalleCompra in GraphQL Server by id {}", id);
         return detailPurchaseService.getDetalleCompraById(id);
     }
 
     @QueryMapping
     @PreAuthorize("permitAll()")
-    public List<DetailPurchase> detailPurchases() {
+    public List<DetailPurchase> getAllDetailPurchases() {
         return this.detailPurchaseService.getAllDetalleCompras();
     }
 

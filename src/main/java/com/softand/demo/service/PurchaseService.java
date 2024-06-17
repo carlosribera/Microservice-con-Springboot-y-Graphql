@@ -34,7 +34,7 @@ public class PurchaseService {
     // Actualizar una compra
     public Purchase updateCompra(String id, Purchase compra) {
         Purchase newPurchase = getCompraById(id);
-        newPurchase.setIdCliente(compra.getIdCliente() == null?newPurchase.getIdCliente():compra.getIdCliente());
+        newPurchase.setIdSupplier(compra.getIdSupplier() == null?newPurchase.getIdSupplier():compra.getIdSupplier());
         newPurchase.setPrecioTotal(compra.getPrecioTotal());
         return purchaseRepository.save(newPurchase);
     }

@@ -1,7 +1,7 @@
 package com.softand.demo.configuration.security.filter;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.softand.demo.util.JwtUtils;
+import com.softand.demo.configuration.security.JwtUtils;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

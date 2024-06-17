@@ -1,5 +1,6 @@
 package com.softand.demo.service;
 
+import com.softand.demo.configuration.security.JwtUtils;
 import com.softand.demo.models.Role;
 import com.softand.demo.models.RoleEnum;
 import com.softand.demo.models.Usuario;
@@ -8,8 +9,6 @@ import com.softand.demo.models.dto.LoginInput;
 import com.softand.demo.models.dto.AuthResponse;
 import com.softand.demo.repositories.RoleRepository;
 import com.softand.demo.repositories.UserRepository;
-import com.softand.demo.util.JwtUtils;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;

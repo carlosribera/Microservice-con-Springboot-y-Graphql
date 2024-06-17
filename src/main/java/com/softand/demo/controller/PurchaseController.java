@@ -25,14 +25,14 @@ public class PurchaseController {
 
     @QueryMapping
     @PreAuthorize("hasAuthority('READ')")
-    public Purchase purchase(@Argument String id) {
+    public Purchase getPurchaseById(@Argument String id) {
         log.info("Query compra in GraphQL Server by id {}", id);
         return purchaseService.getCompraById(id);
     }
 
     @QueryMapping
     @PreAuthorize("permitAll()")
-    public List<Purchase> purchases() {
+    public List<Purchase> getAllPurchases() {
         return this.purchaseService.getAllCompras();
     }
 
@@ -40,7 +40,7 @@ public class PurchaseController {
     @PreAuthorize("permitAll()")
     public Purchase addPurchase(@Argument PurchaseInput purchaseInput) {
         Purchase compra = new Purchase();
-        compra.setIdCliente(purchaseInput.getIdCliente());
+        compra.setIdSupplier(purchaseInput.getIdSupplier());
         compra.setPrecioTotal(purchaseInput.getPrecioTotal());
 
         return this.purchaseService.createPurchase(compra);
@@ -51,7 +51,7 @@ public class PurchaseController {
     public Purchase updatePurchase(@Argument String id, @Argument PurchaseInput purchaseInput) {
         Purchase compra = new Purchase();
         compra.setId(id);
-        compra.setIdCliente(purchaseInput.getIdCliente());
+        compra.setIdSupplier(purchaseInput.getIdSupplier());
         compra.setPrecioTotal(purchaseInput.getPrecioTotal());
 
         return this.purchaseService.updateCompra(id, compra);

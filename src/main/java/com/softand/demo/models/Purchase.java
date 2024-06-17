@@ -15,6 +15,6 @@ public class Purchase {
     
     @Id
     private String id;
-    private String idCliente;
+    private String idSupplier;
     private double precioTotal;
 }

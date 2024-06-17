@@ -25,14 +25,14 @@ public class SupplierController {
 
     @QueryMapping
     @PreAuthorize("hasAuthority('READ')")
-    public Supplier supplier(@Argument String id) {
+    public Supplier getSupplierById(@Argument String id) {
         log.info("Query supplier in GraphQL Server by id {}", id);
         return supplierService.getSupplierById(id);
     }
 
     @QueryMapping
     @PreAuthorize("permitAll()")
-    public List<Supplier> suppliers() {
+    public List<Supplier> getAllSuppliers() {
         return this.supplierService.getAllSuppliers();
     }
 

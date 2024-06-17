@@ -25,14 +25,14 @@ public class ProductController {
 
     @QueryMapping
     @PreAuthorize("hasAuthority('READ')")
-    public Product product(@Argument String id) {
+    public Product getProductById(@Argument String id) {
         log.info("Query product in GraphQL Server by id {}", id);
         return productService.getProductById(id);
     }
     
     @QueryMapping
     @PreAuthorize("permitAll()")
-    public List<Product> products() {
+    public List<Product> getAllProducts() {
         return this.productService.getAllProducts();
     }
     

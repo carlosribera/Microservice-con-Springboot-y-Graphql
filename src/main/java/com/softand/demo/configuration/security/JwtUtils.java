@@ -1,4 +1,4 @@
-package com.softand.demo.util;
+package com.softand.demo.configuration.security;
 
 import java.util.Date;
 import java.util.Map;
@@ -20,10 +20,12 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 @Component
 public class JwtUtils {
 
-    @Value("${security.jwt.key.private}")
+    // @Value("${security.jwt.key.private}")
+    @Value("4ebb181f77c0d38a19da08485188cb2f847f23f449ba24447437ff8b18d11f82")
     private String privateKey;
     
-    @Value("${security.jwt.user.generator}")
+    // @Value("${security.jwt.user.generator}")
+    @Value("AUTHOJWT-BACKEND")
     private String userGenerator;
 
 

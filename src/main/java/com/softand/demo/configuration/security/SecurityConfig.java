@@ -2,7 +2,6 @@ package com.softand.demo.configuration.security;
 
 import com.softand.demo.configuration.security.filter.JwtTokenValidator;
 import com.softand.demo.service.UserDetailServiceImpl;
-import com.softand.demo.util.JwtUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
