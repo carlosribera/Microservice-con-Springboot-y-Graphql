@@ -39,7 +39,7 @@ public class SupplierService {
         newSupplier.setId(supplier.getId() == null ? newSupplier.getId() : supplier.getId());
         newSupplier.setName(supplier.getName() == null ? newSupplier.getName() : supplier.getName());
         newSupplier.setNit(supplier.getNit() == null ? newSupplier.getNit() : supplier.getNit());
-        newSupplier.setTelefono(supplier.getTelefono() == null ? newSupplier.getTelefono() : supplier.getTelefono());
+        newSupplier.setPhone(supplier.getPhone() == null ? newSupplier.getPhone() : supplier.getPhone());
         return supplierRepository.save(newSupplier);
     }
 

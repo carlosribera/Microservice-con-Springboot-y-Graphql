@@ -158,12 +158,12 @@ type Supplier {
   id: String
   name: String
   nit: String
-  telefono: String
+  phone: String
 }
 input SupplierInput {
   name: String
   nit: String
-  telefono: String
+  phone: String
 }
 
 input LoginInput {

@@ -7,5 +7,5 @@ public class SupplierInput {
     private String id;
     private String name;
     private String nit;
-    private String telefono;
+    private String phone;
 }

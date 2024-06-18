@@ -38,29 +38,29 @@ public class WarehouseController {
 
     @MutationMapping
     @PreAuthorize("permitAll()")
-    public Warehouse createStorage(@Argument WarehouseInput storageInput) {
+    public Warehouse createWarehouse(@Argument WarehouseInput warehouseInput) {
         Warehouse storage = new Warehouse();
-        storage.setName(storageInput.getName());
-        storage.setLocation(storageInput.getLocation());
-        storage.setPhone(storageInput.getPhone());
+        storage.setName(warehouseInput.getName());
+        storage.setLocation(warehouseInput.getLocation());
+        storage.setPhone(warehouseInput.getPhone());
 
         return this.warehouseService.createWarehouse(storage);
     }
 
     @MutationMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public Warehouse updateStorage(@Argument String id, @Argument WarehouseInput storageInput) {
+    public Warehouse updateWarehouse(@Argument String id, @Argument WarehouseInput warehouseInput) {
         Warehouse storage = new Warehouse();
-        storage.setName(storageInput.getName());
-        storage.setLocation(storageInput.getLocation());
-        storage.setPhone(storageInput.getPhone());
+        storage.setName(warehouseInput.getName());
+        storage.setLocation(warehouseInput.getLocation());
+        storage.setPhone(warehouseInput.getPhone());
 
         return this.warehouseService.updateWarehouse(id, storage);
     }
 
     @MutationMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public String deleteStorageById(@Argument String id) {
+    public String deleteWarehouseById(@Argument String id) {
         this.warehouseService.deleteById(id);
         return "Storage with id: " + id + " deleted successfully.";
     }

@@ -42,7 +42,7 @@ public class SupplierController {
         Supplier supplier = new Supplier();
         supplier.setName(supplierInput.getName());
         supplier.setNit(supplierInput.getNit());
-        supplier.setTelefono(supplierInput.getTelefono());
+        supplier.setPhone(supplierInput.getPhone());
 
         return this.supplierService.createSupplier(supplier);
     }
@@ -54,7 +54,7 @@ public class SupplierController {
         supplier.setId(id); // Asegúrate de establecer el ID correcto
         supplier.setName(supplierInput.getName());
         supplier.setNit(supplierInput.getNit());
-        supplier.setTelefono(supplierInput.getTelefono());
+        supplier.setPhone(supplierInput.getPhone());
 
         return this.supplierService.updateSupplier(id, supplier);
     }

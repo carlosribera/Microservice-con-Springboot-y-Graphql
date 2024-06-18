@@ -21,10 +21,10 @@ public class Inventory {
     private String id;
 
     @NotNull(message = "Warehouse ID is required")
-    private Integer warehouseId;
+    private String warehouseId;
 
     @NotNull(message = "Product ID is required")
-    private Integer productId;
+    private String productId;
 
     @NotNull(message = "Quantity is required")
     @Positive(message = "Quantity must be greater than zero")

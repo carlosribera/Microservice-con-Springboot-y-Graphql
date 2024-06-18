@@ -31,14 +31,13 @@ public class ProductController {
     }
     
     @QueryMapping
-    @PreAuthorize("permitAll()")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<Product> getAllProducts() {
         return this.productService.getAllProducts();
     }
     
     @MutationMapping
-    // @PreAuthorize("hasRole('ADMIN')")
-    @PreAuthorize("permitAll()")
+    @PreAuthorize("hasRole('ADMIN')")
     public Product createProduct(@Argument ProductInput productInput) {
         Product product = new Product();
         product.setName(productInput.getName());

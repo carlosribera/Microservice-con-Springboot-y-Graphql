@@ -19,35 +19,41 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Enumeration;
 
 public class JwtTokenValidator extends OncePerRequestFilter {
 
     private JwtUtils jwtUtils;
-    
 
     public JwtTokenValidator(JwtUtils jwtUtils) {
         this.jwtUtils = jwtUtils;
     }
 
-
     @Override
-    protected void doFilterInternal(@NonNull HttpServletRequest request, 
-                                    @NonNull HttpServletResponse response, 
-                                    @NonNull FilterChain filterChain) throws ServletException, IOException {
-        
+    protected void doFilterInternal(@NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain) throws ServletException, IOException {
+
         String jwtToken = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (jwtToken != null) {
-            jwtToken = jwtToken.substring(7); // bearer $sdfeiEReodf 
-            DecodedJWT decodedJWT = jwtUtils.validateToken(jwtToken);//Verificamos q el token es valido
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            System.out.println("Do filter internal: " + headerName + " -> " + request.getHeader(headerName));
+        }
+
+        if (jwtToken != null && jwtToken.length()>7) {
+            jwtToken = jwtToken.substring(7); // bearer $sdfeiEReodf
+            DecodedJWT decodedJWT = jwtUtils.validateToken(jwtToken);// Verificamos q el token es valido
 
             String username = jwtUtils.extractUsername(decodedJWT);
             String stringAuthorities = jwtUtils.getSpecificClaim(decodedJWT, "authorities").asString();
 
-            Collection<? extends GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(stringAuthorities);
+            Collection<? extends GrantedAuthority> authorities = AuthorityUtils
+                    .commaSeparatedStringToAuthorityList(stringAuthorities);
 
             SecurityContext context = SecurityContextHolder.createEmptyContext();
-            Authentication authenticationToken = new UsernamePasswordAuthenticationToken(username,null, authorities);
+            Authentication authenticationToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
             context.setAuthentication(authenticationToken);
             SecurityContextHolder.setContext(context);
 

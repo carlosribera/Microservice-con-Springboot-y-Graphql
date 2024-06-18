@@ -36,7 +36,7 @@ public class InventoryController {
     }
 
     @MutationMapping
-    @PreAuthorize("permitAll()")
+    @PreAuthorize("hasRole('ADMIN')")
     public Inventory createInventory(@Argument InventoryInput inventoryInput) {
         Inventory inventory = new Inventory();
         inventory.setWarehouseId(inventoryInput.getWarehouseId());

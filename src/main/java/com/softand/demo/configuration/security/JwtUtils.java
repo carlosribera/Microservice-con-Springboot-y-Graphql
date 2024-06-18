@@ -63,6 +63,7 @@ public class JwtUtils {
             return decodedJWT;
 
         } catch (JWTVerificationException e) {
+            System.out.println("ValidateToken: " + e.getMessage());
             throw new JWTVerificationException("Token invalid, not Authorized");
         }
     }
