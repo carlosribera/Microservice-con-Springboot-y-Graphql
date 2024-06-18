@@ -38,7 +38,7 @@ public class DetailPurchaseController {
 
     @MutationMapping
     @PreAuthorize("permitAll()")
-    public DetailPurchase addDetailPurchase(@Argument DetailPurchaseInput detailPurchaseInput) {
+    public DetailPurchase createDetailPurchase(@Argument DetailPurchaseInput detailPurchaseInput) {
         DetailPurchase detalleCompra = new DetailPurchase();
         detalleCompra.setIdProducto(detailPurchaseInput.getIdProducto());
         detalleCompra.setCantidad(detailPurchaseInput.getCantidad());

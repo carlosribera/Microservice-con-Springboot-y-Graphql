@@ -43,11 +43,11 @@ type Mutation {
   updateProduct(id: ID, productInput: ProductInput): Product
   deleteProductById(id: ID): String
 
-  addPurchase(purchaseInput: PurchaseInput): Purchase
+  createPurchase(purchaseInput: PurchaseInput): Purchase
   updatePurchase(id: ID, purchaseInput: PurchaseInput): Purchase
   deletePurchaseById(id: ID): String
 
-  addDetailPurchase(detailPurchaseInput: DetailPurchaseInput): DetailPurchase
+  createDetailPurchase(detailPurchaseInput: DetailPurchaseInput): DetailPurchase
   updateDetailPurchase(
     id: ID
     detailPurchaseInput: DetailPurchaseInput

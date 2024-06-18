@@ -38,7 +38,7 @@ public class PurchaseController {
 
     @MutationMapping
     @PreAuthorize("permitAll()")
-    public Purchase addPurchase(@Argument PurchaseInput purchaseInput) {
+    public Purchase createPurchase(@Argument PurchaseInput purchaseInput) {
         Purchase compra = new Purchase();
         compra.setIdSupplier(purchaseInput.getIdSupplier());
         compra.setPrecioTotal(purchaseInput.getPrecioTotal());
